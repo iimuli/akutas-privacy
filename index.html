@@ -3,29 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tietosuojaseloste - Ensihoidon Taskuopas</title>
+    <title>Tietosuojaseloste - Akutas™</title>
     <style>
-        body { font-family: -apple-system, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 40px auto; padding: 0 20px; }
-        h1 { border-bottom: 2px solid red; padding-bottom: 10px; }
-        .footer { margin-top: 50px; font-size: 0.8em; color: #666; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        h1 { border-bottom: 2px solid #e02424; padding-bottom: 10px; color: #111; }
+        h3 { color: #222; margin-top: 25px; }
+        p { margin-bottom: 15px; }
+        .footer { margin-top: 50px; font-size: 0.85em; color: #666; border-top: 1px solid #eee; padding-top: 15px; }
     </style>
 </head>
 <body>
     <h1>Tietosuojaseloste</h1>
-    <p>Tämä seloste kuvaa, kuinka <strong>Hoito-opas</strong> käsittelee tietoja.</p>
+    <p>Tämä tietosuojaseloste kuvaa, kuinka <strong>Akutas™</strong>-sovellus käsittelee käyttäjän teknisiä tietoja. Sovellus on suunniteltu kunnioittamaan käyttäjien yksityisyyttä, eikä se toimi henkilötietorekisterinä perinteisessä mielessä.</p>
     
-    <h3>1. Kerättävät tiedot</h3>
-    <p>Sovellus kerää ja tallentaa teknisiä tunnistetietoja: laitteen yksilöllisen teknisen tunnisteen (Device ID) sekä sovelluskohtaisen istuntotunnisteen (Secure Token). Sovellus <strong> ei kerää</strong>  potilastietoja, käyttäjän nimitietoja tai sijaintitietoja.</p>
+    <h3>1. Rekisterinpitäjä</h3>
+    <p>
+        Akutas™ / StatFlow Medical Software Oy<br>
+        Sähköposti: akutas.app@outlook.com
+    </p>oikeellisuutta
 
-    <h3>2. Käyttötarkoitus</h3>
-    <p>Teknisiä tunnisteita käytetään ainoastaan sovelluksen käyttöoikeuden todentamiseen, tietoturvan varmistamiseen (estämään tunnusten luvaton käyttö useilla laitteilla) sekä oikean alueellisen hoito-ohjeistuksen lataamiseen.</p>
+    <h3>2. Kerättävät tiedot ja niiden lähde</h3>
+    <p>Sovellus kerää ja tallentaa ainoastaan toiminnan kannalta välttämättömiä teknisiä tunnistetietoja laitteesta, kun sovellus aktivoidaan lisenssikoodilla:</p>
+    <ul>
+        <li>Laitteen yksilöllinen tekninen tunniste (Device ID)</li>
+        <li>Sovelluskohtainen istuntotunniste (Secure Token)</li>
+    </ul>
+    <p>Sovellus <strong>ei kerää, käsittele tai tallenna</strong> potilastietoja, käyttäjän henkilönimiä, puhelinnumeroita, sähköpostiosoitteita tai reaaliaikaisia sijaintitietoja.</p>
 
-    <h3>3. Tietojen säilytys</h3>
-    <p>Tekniset tunnistetiedot säilytetään suojatussa palvelimessa EU-alueella (Supabase Irlanti). Tietoja ei luovuteta kolmansille osapuolille.</p>
+    <h3>3. Tietojen käsittelyn tarkoitus ja oikeusperuste</h3>
+    <p>Teknisiä tunnisteita käsitellään oikeutetun edun sekä sopimuksen täytäntöönpanon perusteella seuraaviin tarkoituksiin:</p>
+    <ul>
+        <li>Sovelluksen käyttöoikeuden (lisenssin) todentamiseen ja valvontaan.</li>
+        <li>Tietoturvan varmistamiseen (estetään organisaation lisenssikoodien luvaton jakaminen ja käyttö useilla eri laitteilla).</li>
+        <li>Oikean alueellisen hoito-ohjeistuksen ja sisältöpaketin kohdentamiseen ja lataamiseen laitteelle.</li>
+    </ul>
+
+    <h3>4. Tietojen säilytys ja siirto</h3>
+    <p>Tekniset tunnistetiedot säilytetään suojatussa ja salatussa pilvipalvelussa EU-alueella (Supabase, Irlanti). Tietoja ei siirretä EU/ETA-alueen ulkopuolelle eikä niitä luovuteta kolmansille osapuolille tai käytetä markkinointiin.</p>
+
+    <h3>5. Evästeet ja seuranta</h3>
+    <p>Sovelluksessa ei käytetä kolmannen osapuolen seurantatyökaluja (kuten Google Analytics) tai mainosevästeitä.</p>
+
+    <h3>6. Rekisteröidyn oikeudet</h3>
+    <p>Koska sovellus ei tallenna henkilönimiä tai muita suoria tunnistetietoja, teknisiä tunnisteita ei voida suoraan yhdistää tiettyyn luonnolliseen henkilöön ilman lisätietoja. Mikäli sinulla on kysyttävää tietosuojasta, voit ottaa yhteyttä rekisterinpitäjään.</p>
 
     <div class="footer">
-        Päivitetty: 7.4.2026<br>
-        Yhteystiedot: eemeli.vaisanen@paijatha.fi
+        Päivitetty: 7.6.2026<br>
+        Yhteystiedot: akutas.app@outlook.com
     </div>
 </body>
 </html>
