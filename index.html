@@ -15,41 +15,7 @@
 <body>
     <h1>Tietosuojaseloste</h1>
     <p>Tämä tietosuojaseloste kuvaa, kuinka <strong>Akutas™</strong>-sovellus käsittelee käyttäjän teknisiä tietoja. Sovellus on suunniteltu kunnioittamaan käyttäjien yksityisyyttä, eikä se toimi henkilötietorekisterinä perinteisessä mielessä.</p>
-    /// Update the alias in Supabase via RPC and locally
-  Future<void> _updateAlias(String newAlias) async {
-    try {
-      final deviceId = await getDeviceId();
-
-      // Call the secure RPC function instead of direct table update
-      await Supabase.instance.client.rpc(
-        'update_device_alias',
-        params: {'p_device_id': deviceId, 'p_alias': newAlias},
-      );
-
-      // Save locally to display immediately in the UI
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('device_alias', newAlias);
-
-      setState(() {
-        _currentAlias = newAlias;
-      });
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Laitteen tunniste päivitetty!')),
-        );
-      }
-    } catch (e) {
-      print('Virhe päivitettäessä tunnistetta: $e');
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Päivitys epäonnistui. Tarkista verkkoyhteys.'),
-          ),
-        );
-      }
-    }
-  }
+    
     <h3>1. Rekisterinpitäjä</h3>
     <p>
         StatFlow Medical Software Oy<br>
