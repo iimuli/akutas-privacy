@@ -15,7 +15,41 @@
 <body>
     <h1>Tietosuojaseloste</h1>
     <p>Tämä tietosuojaseloste kuvaa, kuinka <strong>Akutas™</strong>-sovellus käsittelee käyttäjän teknisiä tietoja. Sovellus on suunniteltu kunnioittamaan käyttäjien yksityisyyttä, eikä se toimi henkilötietorekisterinä perinteisessä mielessä.</p>
-    
+    /// Update the alias in Supabase via RPC and locally
+  Future<void> _updateAlias(String newAlias) async {
+    try {
+      final deviceId = await getDeviceId();
+
+      // Call the secure RPC function instead of direct table update
+      await Supabase.instance.client.rpc(
+        'update_device_alias',
+        params: {'p_device_id': deviceId, 'p_alias': newAlias},
+      );
+
+      // Save locally to display immediately in the UI
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('device_alias', newAlias);
+
+      setState(() {
+        _currentAlias = newAlias;
+      });
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Laitteen tunniste päivitetty!')),
+        );
+      }
+    } catch (e) {
+      print('Virhe päivitettäessä tunnistetta: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Päivitys epäonnistui. Tarkista verkkoyhteys.'),
+          ),
+        );
+      }
+    }
+  }
     <h3>1. Rekisterinpitäjä</h3>
     <p>
         StatFlow Medical Software Oy<br>
@@ -24,32 +58,34 @@
     </p>
 
     <h3>2. Kerättävät tiedot ja niiden lähde</h3>
-    <p>Sovellus kerää ja tallentaa ainoastaan toiminnan kannalta välttämättömiä teknisiä tunnistetietoja laitteesta, kun sovellus aktivoidaan lisenssikoodilla:</p>
+    <p>Sovellus kerää ja tallentaa ainoastaan toiminnan ja lisenssienhallinnan kannalta välttämättömiä teknisiä tietoja laitteesta, kun sovellus aktivoidaan organisaation lisenssikoodilla:</p>
     <ul>
-        <li>Laitteen yksilöllinen tekninen tunniste (Device ID)</li>
+        <li>Laitteen yksilöllinen tekninen tunniste (Device ID / UUID)</li>
         <li>Sovelluskohtainen istuntotunniste (Secure Token)</li>
+        <li><strong>Vapaaehtoinen laitetunniste / yksikkö-alias:</strong> Asiakasorganisaation ylläpidon tai IT-tuen manuaalisesti syöttämä vapaamuotoinen laitetunnus (esim. ajoneuvo-, asema- tai laite-nro "EPH123"). <em>Ohjeistuksen mukaisesti tähän kenttään ei tule syöttää luonnollisten henkilöiden nimiä tai muita suoria henkilötietoja.</em></li>
     </ul>
     <p>Sovellus <strong>ei kerää, käsittele tai tallenna</strong> potilastietoja, käyttäjän henkilönimiä, puhelinnumeroita, sähköpostiosoitteita tai reaaliaikaisia sijaintitietoja.</p>
 
     <h3>3. Tietojen käsittelyn tarkoitus ja oikeusperuste</h3>
-    <p>Teknisiä tunnisteita käsitellään oikeutetun edun sekä sopimuksen täytäntöönpanon perusteella seuraaviin tarkoituksiin:</p>
+    <p>Teknisiä tunnisteita ja laite-aliaksia käsitellään oikeutetun edun sekä sopimuksen täytäntöönpanon perusteella seuraaviin tarkoituksiin:</p>
     <ul>
         <li>Sovelluksen käyttöoikeuden (lisenssin) todentamiseen ja valvontaan.</li>
-        <li>Tietoturvan varmistamiseen (estetään organisaation lisenssikoodien luvaton jakaminen ja käyttö useilla eri laitteilla).</li>
-        <li>Oikean alueellisen hoito-ohjeistuksen ja sisältöpaketin kohdentamiseen ja lataamiseen laitteelle.</li>
+        <li>Tietoturvan varmistamiseen ja väärinkäytösten estämiseen (estetään organisaation lisenssikoodien luvaton jakaminen ja käyttö useilla eri laitteilla).</li>
+        <li><strong>Laitteiston ja käyttöoikeuksien etähallintaan:</strong> Organisaatiokohtaisen aliaksen avulla asiakas voi helposti tunnistaa ja pyytää rekisterinpitäjää kuolettamaan tai siirtämään lisenssin, mikäli laite esimerkiksi katoaa, vaurioituu tai poistuu operatiivisesta käytöstä.</li>
+        <li>Oikean alueellisen hoito-ohjeistuksen ja sisältöpaketin kohdentamiseen sekä lataamiseen laitteelle.</li>
     </ul>
 
     <h3>4. Tietojen säilytys ja siirto</h3>
-    <p>Tekniset tunnistetiedot säilytetään suojatussa ja salatussa pilvipalvelussa EU-alueella (Supabase, Irlanti). Tietoja ei siirretä EU/ETA-alueen ulkopuolelle eikä niitä luovuteta kolmansille osapuolille tai käytetä markkinointiin.</p>
+    <p>Tekniset tunnistetiedot säilytetään suojatussa ja salatussa pilvipalvelussa EU-alueella (Supabase, Irlanti). Tietoja ei siirretä EU/ETA-alueen ulkopuolelle eikä niitä luovuteta kolmansille osapuolille tai käytetä kaupallisiin tarkoituksiin.</p>
 
     <h3>5. Evästeet ja seuranta</h3>
     <p>Sovelluksessa ei käytetä kolmannen osapuolen seurantatyökaluja (kuten Google Analytics) tai mainosevästeitä.</p>
 
     <h3>6. Rekisteröidyn oikeudet</h3>
-    <p>Koska sovellus ei tallenna henkilönimiä tai muita suoria tunnistetietoja, teknisiä tunnisteita ei voida suoraan yhdistää tiettyyn luonnolliseen henkilöön ilman lisätietoja. Mikäli sinulla on kysyttävää tietosuojasta, voit ottaa yhteyttä rekisterinpitäjään.</p>
+    <p>Koska sovellus ei tallenna henkilönimiä tai muita suoria tunnistetietoja, teknisiä tunnisteita ei voida suoraan yhdistää tiettyyn luonnolliseen henkilöön ilman erillisiä taustatietoja (kuten työvuorolistoja). Mikäli sinulla on kysyttävää tietosuojasta tai haluat tarkistaa laitteellesi tallennetut tekniset tiedot, voit ottaa yhteyttä rekisterinpitäjään.</p>
 
     <div class="footer">
-        Päivitetty: 7.6.2026<br>
+        Päivitetty: 17.6.2026<br>
     </div>
 </body>
 </html>
